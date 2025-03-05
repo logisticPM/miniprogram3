@@ -1,0 +1,268 @@
+/* admin/rooms/index.wxss */
+.container {
+  padding: 0 0 120rpx 0;
+  background-color: #f8f8f8;
+}
+
+.admin-header {
+  padding: 30rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.header-actions {
+  display: flex;
+}
+
+.action-btn {
+  margin-left: 10rpx;
+  font-size: 24rpx;
+}
+
+.create-btn {
+  background-color: #1989fa;
+  color: #fff;
+}
+
+.logout-btn {
+  background-color: #fff;
+  color: #ff4d4f;
+  border: 1rpx solid #ff4d4f;
+}
+
+.filter-section {
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.filter-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.filter-scroll {
+  white-space: nowrap;
+  margin-bottom: 10rpx;
+}
+
+.filter-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 10rpx;
+}
+
+.filter-item {
+  display: inline-block;
+  font-size: 24rpx;
+  padding: 6rpx 20rpx;
+  margin-right: 10rpx;
+  background-color: #f5f5f5;
+  border-radius: 30rpx;
+  color: #666;
+}
+
+.filter-item.active {
+  background-color: #1989fa;
+  color: #fff;
+}
+
+.loading-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
+  background-color: #f8f8f8;
+}
+
+.loading-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid #f3f3f3;
+  border-top: 3rpx solid #1989fa;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  color: #999;
+}
+
+.empty-tip icon {
+  margin-bottom: 20rpx;
+}
+
+.room-list {
+  padding: 0 20rpx;
+}
+
+.room-item {
+  margin-bottom: 20rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.room-number {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.room-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.status-available {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.status-grabbed {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.status-sold {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+.room-info {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.room-price {
+  font-size: 36rpx;
+  color: #f5222d;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.info-item {
+  margin-right: 30rpx;
+  display: flex;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.room-actions {
+  padding: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-btn {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border: 1rpx solid #1890ff;
+}
+
+.edit-btn {
+  background-color: #fff;
+  color: #1890ff;
+  border: 1rpx solid #1890ff;
+}
+
+.delete-btn {
+  background-color: #fff;
+  color: #ff4d4f;
+  border: 1rpx solid #ff4d4f;
+}
+
+.loading-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.admin-tabs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background-color: #fff;
+  display: flex;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10rpx 0;
+}
+
+.tab-item.active {
+  color: #1989fa;
+}
+
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 6rpx;
+}
+
+.tab-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.tab-text {
+  font-size: 24rpx;
+}

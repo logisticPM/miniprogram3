@@ -1,0 +1,109 @@
+<!--room/detail/index.wxml-->
+<navigation-bar title="房间详情" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+
+<view class="container">
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <block wx:elif="{{room}}">
+    <!-- 房间图片 -->
+    <view class="room-images">
+      <swiper 
+        class="image-swiper" 
+        indicator-dots="{{room.image_urls.length > 1}}" 
+        autoplay="{{true}}" 
+        interval="5000" 
+        duration="500" 
+        current="{{currentImageIndex}}"
+        bindchange="changeImage"
+      >
+        <block wx:if="{{room.image_urls && room.image_urls.length > 0}}">
+          <swiper-item wx:for="{{room.image_urls}}" wx:key="index" bindtap="previewImage">
+            <image src="{{item}}" mode="aspectFill" class="slide-image"></image>
+          </swiper-item>
+        </block>
+        <swiper-item wx:else>
+          <image src="/images/default-room.png" mode="aspectFill" class="slide-image"></image>
+        </swiper-item>
+      </swiper>
+      
+      <view class="image-thumbnails" wx:if="{{room.image_urls && room.image_urls.length > 1}}">
+        <image 
+          wx:for="{{room.image_urls}}" 
+          wx:key="index" 
+          src="{{item}}" 
+          mode="aspectFill" 
+          class="thumbnail {{currentImageIndex === index ? 'active' : ''}}"
+          data-index="{{index}}"
+          bindtap="changeImage"
+        ></image>
+      </view>
+    </view>
+    
+    <!-- 房间基本信息 -->
+    <view class="room-info-card">
+      <view class="room-header">
+        <view class="room-number">{{room.room_number}}</view>
+        <view class="room-status {{room.statusClass}}">{{room.statusText}}</view>
+      </view>
+      
+      <view class="room-price">{{room.priceText}}</view>
+      
+      <view class="room-basic-info">
+        <view class="info-item">
+          <text class="info-label">楼层</text>
+          <text class="info-value">{{room.floor}}层</text>
+        </view>
+        <view class="info-item" wx:if="{{room.orientation}}">
+          <text class="info-label">朝向</text>
+          <text class="info-value">{{room.orientation}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 房型信息 -->
+    <view class="room-type-card" wx:if="{{room.room_type}}">
+      <view class="section-title">房型信息</view>
+      
+      <view class="room-type-info">
+        <view class="type-name">{{room.room_type.name}}</view>
+        <view class="type-detail">
+          <text wx:if="{{room.room_type.area}}">{{room.room_type.area}}㎡</text>
+          <text>参考价: {{room.room_type.priceText}}</text>
+        </view>
+        
+        <view class="type-features" wx:if="{{room.room_type.features && room.room_type.features.length > 0}}">
+          <text class="feature-tag" wx:for="{{room.room_type.features}}" wx:key="index">{{item}}</text>
+        </view>
+        
+        <view class="type-description" wx:if="{{room.room_type.description}}">
+          {{room.room_type.description}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 房间详情 -->
+    <view class="room-details-card" wx:if="{{room.details}}">
+      <view class="section-title">房间详情</view>
+      <view class="details-content">{{room.details}}</view>
+    </view>
+    
+    <!-- 抢购按钮 -->
+    <view class="action-bar">
+      <button 
+        class="grab-btn {{room.status !== 'AVAILABLE' ? 'disabled' : ''}}" 
+        bindtap="grabRoom"
+        disabled="{{room.status !== 'AVAILABLE'}}"
+      >
+        {{room.status === 'AVAILABLE' ? '立即抢购' : (room.status === 'GRABBED' ? '已被抢购' : '已售出')}}
+      </button>
+    </view>
+  </block>
+  
+  <view wx:else class="error-tip">
+    <icon type="warn" size="64"></icon>
+    <text>加载失败，请返回重试</text>
+  </view>
+</view>

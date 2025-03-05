@@ -1,0 +1,40 @@
+<!--index.wxml-->
+<navigation-bar title="房产抢购" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list" enable-pull-down-refresh="{{true}}">
+  <view class="container">
+    <view class="header">
+      <view class="title">热门活动</view>
+      <view class="admin-link" bindtap="goToAdmin">管理员入口</view>
+    </view>
+    
+    <view class="activity-list">
+      <view wx:if="{{loading}}" class="loading">
+        <view class="loading-icon"></view>
+        <text>加载中...</text>
+      </view>
+      
+      <block wx:elif="{{activities.length > 0}}">
+        <view 
+          class="activity-item" 
+          wx:for="{{activities}}" 
+          wx:key="id" 
+          data-id="{{item.id}}" 
+          bindtap="goToActivity"
+        >
+          <image class="activity-image" src="{{item.cover_image || '/images/default-cover.png'}}" mode="aspectFill"></image>
+          <view class="activity-info">
+            <view class="activity-name">{{item.name}}</view>
+            <view class="activity-address">{{item.building_name}} · {{item.building_address}}</view>
+            <view class="activity-time">{{item.start_time}} ~ {{item.end_time}}</view>
+            <view class="activity-status {{item.statusClass}}">{{item.statusText}}</view>
+          </view>
+        </view>
+      </block>
+      
+      <view wx:else class="empty-list">
+        <image class="empty-icon" src="/images/empty.png"></image>
+        <text>暂无活动</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>

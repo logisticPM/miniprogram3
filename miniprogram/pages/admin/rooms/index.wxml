@@ -1,0 +1,153 @@
+<!--admin/rooms/index.wxml-->
+<navigation-bar title="房间管理" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+
+<view class="container">
+  <view class="admin-header">
+    <view class="header-title">房间管理</view>
+    <view class="header-actions">
+      <button class="action-btn create-btn" bindtap="createRoom">新建房间</button>
+      <button class="action-btn logout-btn" bindtap="logout">退出登录</button>
+    </view>
+  </view>
+  
+  <view class="filter-section">
+    <view class="filter-title">筛选：</view>
+    
+    <scroll-view scroll-x class="filter-scroll">
+      <view class="filter-group">
+        <view class="filter-label">房型：</view>
+        <view 
+          class="filter-item {{selectedRoomTypeId === '' ? 'active' : ''}}" 
+          bindtap="filterByRoomType" 
+          data-id=""
+        >全部</view>
+        <view 
+          wx:for="{{roomTypes}}" 
+          wx:key="id" 
+          class="filter-item {{selectedRoomTypeId === item.id ? 'active' : ''}}" 
+          bindtap="filterByRoomType" 
+          data-id="{{item.id}}"
+        >{{item.name}}</view>
+      </view>
+    </scroll-view>
+    
+    <scroll-view scroll-x class="filter-scroll">
+      <view class="filter-group">
+        <view class="filter-label">状态：</view>
+        <view 
+          class="filter-item {{filterStatus === '' ? 'active' : ''}}" 
+          bindtap="filterByStatus" 
+          data-status=""
+        >全部</view>
+        <view 
+          class="filter-item {{filterStatus === 'AVAILABLE' ? 'active' : ''}}" 
+          bindtap="filterByStatus" 
+          data-status="AVAILABLE"
+        >可抢购</view>
+        <view 
+          class="filter-item {{filterStatus === 'GRABBED' ? 'active' : ''}}" 
+          bindtap="filterByStatus" 
+          data-status="GRABBED"
+        >已抢购</view>
+        <view 
+          class="filter-item {{filterStatus === 'SOLD' ? 'active' : ''}}" 
+          bindtap="filterByStatus" 
+          data-status="SOLD"
+        >已售出</view>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <view wx:if="{{refreshing}}" class="loading-bar">
+    <view class="loading-icon"></view>
+    <text>刷新中...</text>
+  </view>
+  
+  <view wx:if="{{rooms.length === 0 && !loading}}" class="empty-tip">
+    <icon type="info" size="64" color="#ccc"></icon>
+    <text>暂无房间，点击"新建房间"创建</text>
+  </view>
+  
+  <view class="room-list" wx:else>
+    <view 
+      class="room-item" 
+      wx:for="{{rooms}}" 
+      wx:key="id"
+    >
+      <view class="room-header">
+        <view class="room-number">{{item.room_number}}</view>
+        <view class="room-status {{item.statusClass}}">{{item.statusText}}</view>
+      </view>
+      
+      <view class="room-info">
+        <view class="room-price">{{item.priceText}}</view>
+        
+        <view class="info-row">
+          <view class="info-item">
+            <text class="info-label">房型：</text>
+            <text class="info-value">{{item.room_type.name}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">楼层：</text>
+            <text class="info-value">{{item.floor}}层</text>
+          </view>
+        </view>
+        
+        <view class="info-row" wx:if="{{item.orientation || item.room_type.area}}">
+          <view class="info-item" wx:if="{{item.orientation}}">
+            <text class="info-label">朝向：</text>
+            <text class="info-value">{{item.orientation}}</text>
+          </view>
+          <view class="info-item" wx:if="{{item.room_type.area}}">
+            <text class="info-label">面积：</text>
+            <text class="info-value">{{item.room_type.area}}㎡</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="room-actions">
+        <button 
+          class="action-btn view-btn" 
+          size="mini" 
+          bindtap="viewRoom" 
+          data-id="{{item.id}}"
+        >查看</button>
+        
+        <button 
+          class="action-btn edit-btn" 
+          size="mini" 
+          bindtap="editRoom" 
+          data-id="{{item.id}}"
+        >编辑</button>
+        
+        <button 
+          class="action-btn delete-btn" 
+          size="mini" 
+          bindtap="deleteRoom" 
+          data-id="{{item.id}}" 
+          data-number="{{item.room_number}}"
+        >删除</button>
+      </view>
+    </view>
+  </view>
+  
+  <view wx:if="{{loading && !refreshing}}" class="loading-more">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <view class="admin-tabs">
+    <view class="tab-item" bindtap="navigateToActivities">
+      <view class="tab-icon">
+        <image src="/images/icon-activity.png" mode="aspectFit"></image>
+      </view>
+      <view class="tab-text">活动管理</view>
+    </view>
+    <view class="tab-item active">
+      <view class="tab-icon">
+        <image src="/images/icon-room.png" mode="aspectFit"></image>
+      </view>
+      <view class="tab-text">房间管理</view>
+    </view>
+  </view>
+</view>

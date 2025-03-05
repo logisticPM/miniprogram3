@@ -1,0 +1,89 @@
+<!--activity/detail/index.wxml-->
+<navigation-bar title="活动详情" back="{{true}}" color="white" background="#1989fa"></navigation-bar>
+
+<view class="container">
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <block wx:elif="{{activity}}">
+    <!-- 活动头部 -->
+    <view class="activity-header">
+      <image class="activity-cover" src="{{activity.cover_image || '/images/default-cover.png'}}" mode="aspectFill"></image>
+      <view class="activity-info">
+        <view class="activity-name">{{activity.name}}</view>
+        <view class="activity-status {{activity.statusClass}}">{{activity.statusText}}</view>
+        <view class="activity-time">{{activity.start_time}} ~ {{activity.end_time}}</view>
+        <view class="activity-address">
+          <text class="building-name">{{activity.building_name}}</text>
+          <text class="building-address">{{activity.building_address}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 活动描述 -->
+    <view class="activity-description">
+      <view class="section-title">活动介绍</view>
+      <text class="description-text">{{activity.description || '暂无介绍'}}</text>
+    </view>
+    
+    <!-- 标签页 -->
+    <view class="tabs">
+      <view 
+        class="tab-item {{currentTab === index ? 'active' : ''}}" 
+        wx:for="{{tabs}}" 
+        wx:key="index"
+        data-index="{{index}}"
+        bindtap="switchTab"
+      >
+        {{item}}
+      </view>
+    </view>
+    
+    <!-- 房型介绍 -->
+    <view class="tab-content" hidden="{{currentTab !== 0}}">
+      <view class="room-type-list">
+        <block wx:if="{{roomTypes.length > 0}}">
+          <view class="room-type-item" wx:for="{{roomTypes}}" wx:key="id">
+            <image class="room-type-image" src="{{item.image_url || '/images/default-room.png'}}" mode="aspectFill"></image>
+            <view class="room-type-info">
+              <view class="room-type-name">{{item.name}}</view>
+              <view class="room-type-area" wx:if="{{item.area}}">{{item.area}}㎡</view>
+              <view class="room-type-price">{{item.priceText}}</view>
+              <view class="room-type-features">
+                <text class="feature-tag" wx:for="{{item.features}}" wx:key="index" wx:for-item="feature">{{feature}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view wx:else class="empty-tip">暂无房型信息</view>
+      </view>
+    </view>
+    
+    <!-- 可选房源 -->
+    <view class="tab-content" hidden="{{currentTab !== 1}}">
+      <view class="room-list">
+        <block wx:if="{{rooms.length > 0}}">
+          <view class="room-item" wx:for="{{rooms}}" wx:key="id">
+            <view class="room-info" bindtap="viewRoomDetail" data-id="{{item.id}}">
+              <view class="room-number">{{item.room_number}}</view>
+              <view class="room-detail">
+                <text>{{item.floor}}层</text>
+                <text wx:if="{{item.orientation}}">{{item.orientation}}</text>
+              </view>
+              <view class="room-price">{{item.priceText}}</view>
+            </view>
+            <button class="grab-btn" bindtap="grabRoom" data-id="{{item.id}}">抢购</button>
+          </view>
+        </block>
+        <view wx:else class="empty-tip">暂无可选房源</view>
+      </view>
+    </view>
+  </block>
+  
+  <view wx:else class="error-tip">
+    <icon type="warn" size="64"></icon>
+    <text>加载失败，请返回重试</text>
+  </view>
+</view>

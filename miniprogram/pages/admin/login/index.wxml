@@ -1,0 +1,48 @@
+<!--admin/login/index.wxml-->
+<navigation-bar title="管理员登录" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+
+<view class="container">
+  <view class="login-header">
+    <view class="logo">
+      <image src="/images/admin-logo.png" mode="aspectFit"></image>
+    </view>
+    <view class="title">房产抢购小程序</view>
+    <view class="subtitle">管理后台</view>
+  </view>
+  
+  <view class="login-form">
+    <view class="form-item">
+      <view class="form-label">用户名</view>
+      <input 
+        class="form-input" 
+        type="text" 
+        placeholder="请输入管理员用户名" 
+        value="{{username}}" 
+        bindinput="inputUsername"
+      />
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">密码</view>
+      <input 
+        class="form-input" 
+        type="password" 
+        placeholder="请输入管理员密码" 
+        value="{{password}}" 
+        bindinput="inputPassword"
+      />
+    </view>
+    
+    <button 
+      class="login-btn {{loading ? 'loading' : ''}}" 
+      bindtap="login" 
+      disabled="{{loading}}"
+    >
+      {{loading ? '登录中...' : '登录'}}
+    </button>
+  </view>
+  
+  <view class="login-tips">
+    <text>提示：请联系系统管理员获取登录凭证</text>
+  </view>
+</view>

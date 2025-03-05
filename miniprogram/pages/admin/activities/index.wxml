@@ -1,0 +1,94 @@
+<!--admin/activities/index.wxml-->
+<navigation-bar title="活动管理" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+
+<view class="container">
+  <view class="admin-header">
+    <view class="header-title">活动管理</view>
+    <view class="header-actions">
+      <button class="action-btn create-btn" bindtap="createActivity">新建活动</button>
+      <button class="action-btn logout-btn" bindtap="logout">退出登录</button>
+    </view>
+  </view>
+  
+  <view wx:if="{{refreshing}}" class="loading-bar">
+    <view class="loading-icon"></view>
+    <text>刷新中...</text>
+  </view>
+  
+  <view wx:if="{{activities.length === 0 && !loading}}" class="empty-tip">
+    <icon type="info" size="64" color="#ccc"></icon>
+    <text>暂无活动，点击"新建活动"创建</text>
+  </view>
+  
+  <view class="activity-list" wx:else>
+    <view 
+      class="activity-item" 
+      wx:for="{{activities}}" 
+      wx:key="id"
+    >
+      <view class="activity-header">
+        <view class="activity-name">{{item.name}}</view>
+        <view class="activity-status {{item.statusClass}}">{{item.statusText}}</view>
+      </view>
+      
+      <view class="activity-info">
+        <view class="info-item">
+          <text class="info-label">开始时间：</text>
+          <text class="info-value">{{item.start_time_text}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">结束时间：</text>
+          <text class="info-value">{{item.end_time_text}}</text>
+        </view>
+        <view class="info-item" wx:if="{{item.location}}">
+          <text class="info-label">地点：</text>
+          <text class="info-value">{{item.location}}</text>
+        </view>
+      </view>
+      
+      <view class="activity-actions">
+        <button 
+          class="action-btn view-btn" 
+          size="mini" 
+          bindtap="viewActivity" 
+          data-id="{{item.id}}"
+        >查看</button>
+        
+        <button 
+          class="action-btn edit-btn" 
+          size="mini" 
+          bindtap="editActivity" 
+          data-id="{{item.id}}"
+        >编辑</button>
+        
+        <button 
+          class="action-btn delete-btn" 
+          size="mini" 
+          bindtap="deleteActivity" 
+          data-id="{{item.id}}" 
+          data-name="{{item.name}}"
+        >删除</button>
+      </view>
+    </view>
+  </view>
+  
+  <view wx:if="{{loading && !refreshing}}" class="loading-more">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <view class="admin-tabs">
+    <view class="tab-item active">
+      <view class="tab-icon">
+        <image src="/images/icon-activity.png" mode="aspectFit"></image>
+      </view>
+      <view class="tab-text">活动管理</view>
+    </view>
+    <view class="tab-item" bindtap="navigateToRooms">
+      <view class="tab-icon">
+        <image src="/images/icon-room.png" mode="aspectFit"></image>
+      </view>
+      <view class="tab-text">房间管理</view>
+    </view>
+  </view>
+</view>
